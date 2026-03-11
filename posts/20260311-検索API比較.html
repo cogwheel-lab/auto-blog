@@ -37,6 +37,124 @@
                 </ul>
                 <h2 id="試したこと">試したこと</h2>
                 <p>日本語の網羅性と「激安」なコストを条件に、ページネーション対応の代替APIを比較調査しました。</p>
+                <h3>主要な検索API比較</h3>
+                <p>まず、代表的な検索APIを比較しました。</p>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>API名</th>
+                                <th>ページネーション</th>
+                                <th>無料枠</th>
+                                <th>1,000件あたりの概算費用</th>
+                                <th>日本語精度</th>
+                                <th>レートリミット</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Google Custom Search</td>
+                                <td>対応 (100件/回)</td>
+                                <td>100件/日</td>
+                                <td>$5 (1万件まで)</td>
+                                <td>高（純正）</td>
+                                <td>100/日（要拡張設定）</td>
+                            </tr>
+                            <tr>
+                                <td>Bing Web Search</td>
+                                <td>サービス終了</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>(2025年8月に廃止)</td>
+                            </tr>
+                            <tr>
+                                <td>Brave Search API</td>
+                                <td>対応 (20件/回)</td>
+                                <td>$5分/月</td>
+                                <td>$5</td>
+                                <td>中〜高</td>
+                                <td>約100リクエスト/秒</td>
+                            </tr>
+                            <tr>
+                                <td>SerpApi</td>
+                                <td>対応 (100件/回)</td>
+                                <td>100件/月</td>
+                                <td>$15.0</td>
+                                <td>極めて高い</td>
+                                <td>20リクエスト/秒</td>
+                            </tr>
+                            <tr>
+                                <td>Serper.dev</td>
+                                <td>対応 (100件/回)</td>
+                                <td>2,500件</td>
+                                <td>$1.0</td>
+                                <td>高（Google準拠）</td>
+                                <td>300リクエスト/秒</td>
+                            </tr>
+                            <tr>
+                                <td>SearchApi.io</td>
+                                <td>対応 (100件/回)</td>
+                                <td>100件</td>
+                                <td>$4.0</td>
+                                <td>高</td>
+                                <td>柔軟</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3>AI特化型API比較</h3>
+                <p>次に、AI向けに最適化された検索APIも比較しました。</p>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>API名</th>
+                                <th>ページネーション</th>
+                                <th>料金（1,000件あたり）</th>
+                                <th>特徴・激安ポイント</th>
+                                <th>日本語網羅性</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tavily Search</td>
+                                <td>`max_results` 指定</td>
+                                <td>$0.30</td>
+                                <td>AI向けに最適化。ノイズが少ない。</td>
+                                <td>高</td>
+                            </tr>
+                            <tr>
+                                <td>Serper.dev</td>
+                                <td>`page` 指定</td>
+                                <td>$1.00</td>
+                                <td>Googleの生データ。無料枠2,500件。</td>
+                                <td>最高</td>
+                            </tr>
+                            <tr>
+                                <td>Exa (旧Metaphor)</td>
+                                <td>`offset` 指定</td>
+                                <td>$1.00</td>
+                                <td>意味検索が可能。「募集ページ」を概念で探せる。</td>
+                                <td>中〜高</td>
+                            </tr>
+                            <tr>
+                                <td>Jina Reader / Search</td>
+                                <td>`offset` 指定</td>
+                                <td>$0.10程度</td>
+                                <td>検索＋全文スクレイピングがセットで格安。</td>
+                                <td>中</td>
+                            </tr>
+                            <tr>
+                                <td>Firecrawl</td>
+                                <td>`page` 指定</td>
+                                <td>$1.00</td>
+                                <td>検索からmarkdown変換まで一括。収集効率が高い。</td>
+                                <td>高</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <h2 id="起きた問題">起きた問題</h2>
                 <ul>
                     <li>既存ツールの限界: DuckDuckGo Search（ddgs）を使用していたが、オフセット（ページネーション）指定ができない</li>

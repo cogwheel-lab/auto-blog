@@ -68,13 +68,45 @@ def markdown_to_html(body, slug):
     html_lines = []
     toc_items = []
     in_ul = False
+    in_table = False
+    table_rows = []
 
-    for line in lines:
+    for i, line in enumerate(lines):
         line = line.rstrip()
         if not line:
             if in_ul:
                 html_lines.append('                </ul>')
                 in_ul = False
+            if in_table:
+                # テーブル終了
+                html_lines.append('                <div class="table-container">')
+                html_lines.append('                    <table>')
+                # ヘッダー行
+                if table_rows:
+                    header_cells = [cell.strip().replace('**', '') for cell in table_rows[0].split('|')[1:-1]]
+                    html_lines.append('                        <thead>')
+                    html_lines.append('                            <tr>')
+                    for cell in header_cells:
+                        html_lines.append(f'                                <th>{cell}</th>')
+                    html_lines.append('                            </tr>')
+                    html_lines.append('                        </thead>')
+                # データ行（2行目はセパレータなのでスキップ）
+                html_lines.append('                        <tbody>')
+                for row in table_rows[1:]:
+                    # セパレータ行（---のみ）かチェック
+                    stripped = row.replace('|', '').strip()
+                    if not stripped or set(stripped).issubset(set('-: ')):
+                        continue
+                    cells = [cell.strip().replace('**', '') for cell in row.split('|')[1:-1]]
+                    html_lines.append('                            <tr>')
+                    for cell in cells:
+                        html_lines.append(f'                                <td>{cell}</td>')
+                    html_lines.append('                            </tr>')
+                html_lines.append('                        </tbody>')
+                html_lines.append('                    </table>')
+                html_lines.append('                </div>')
+                in_table = False
+                table_rows = []
             continue
 
         # 見出し
@@ -101,9 +133,14 @@ def markdown_to_html(body, slug):
             # Markdownの太字記号を削除
             text = text.replace('**', '')
             html_lines.append(f'                    <li>{text}</li>')
-        # テーブル（簡易対応）
+        # テーブル
         elif line.startswith('|'):
-            pass  # TODO: テーブル対応
+            if in_ul:
+                html_lines.append('                </ul>')
+                in_ul = False
+            if not in_table:
+                in_table = True
+            table_rows.append(line)
         # 段落
         else:
             if in_ul:
@@ -112,6 +149,32 @@ def markdown_to_html(body, slug):
             # Markdownの太字記号を削除
             line = line.replace('**', '')
             html_lines.append(f'                <p>{line}</p>')
+
+    # テーブルが閉じていない場合
+    if in_table:
+        html_lines.append('                <div class="table-container">')
+        html_lines.append('                    <table>')
+        if table_rows:
+            header_cells = [cell.strip().replace('**', '') for cell in table_rows[0].split('|')[1:-1]]
+            html_lines.append('                        <thead>')
+            html_lines.append('                            <tr>')
+            for cell in header_cells:
+                html_lines.append(f'                                <th>{cell}</th>')
+            html_lines.append('                            </tr>')
+            html_lines.append('                        </thead>')
+        html_lines.append('                        <tbody>')
+        for row in table_rows[1:]:
+            stripped = row.replace('|', '').strip()
+            if not stripped or set(stripped).issubset(set('-: ')):
+                continue
+            cells = [cell.strip().replace('**', '') for cell in row.split('|')[1:-1]]
+            html_lines.append('                            <tr>')
+            for cell in cells:
+                html_lines.append(f'                                <td>{cell}</td>')
+            html_lines.append('                            </tr>')
+        html_lines.append('                        </tbody>')
+        html_lines.append('                    </table>')
+        html_lines.append('                </div>')
 
     if in_ul:
         html_lines.append('                </ul>')
