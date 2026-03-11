@@ -74,7 +74,7 @@ header .meta {
 .main-content {
     display: grid;
     grid-template-columns: 1fr;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     margin-bottom: 3rem;
 }
 
