@@ -98,6 +98,8 @@ def markdown_to_html(body, slug):
                 html_lines.append('                <ul>')
                 in_ul = True
             text = line[2:]
+            # Markdownの太字記号を削除
+            text = text.replace('**', '')
             html_lines.append(f'                    <li>{text}</li>')
         # テーブル（簡易対応）
         elif line.startswith('|'):
@@ -107,6 +109,8 @@ def markdown_to_html(body, slug):
             if in_ul:
                 html_lines.append('                </ul>')
                 in_ul = False
+            # Markdownの太字記号を削除
+            line = line.replace('**', '')
             html_lines.append(f'                <p>{line}</p>')
 
     if in_ul:
