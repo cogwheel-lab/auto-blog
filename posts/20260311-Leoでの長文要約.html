@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leoでの長文要約の活用法 | Tech Blog</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-space"></div>
+            <div class="header-content">
+                <h1>Leoでの長文要約の活用法</h1>
+                <p class="meta">2026-03-11 | カテゴリ: ツール</p>
+            </div>
+        </header>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <article>
+                <p># Leoでの長文要約の活用法</p>
+                <p>Exported: 3/11/2026 11:48:34</p>
+                <p>Link: [https://gemini.google.com/app/28394598575d2bcb?hl=ja](https://gemini.google.com/app/28394598575d2bcb?hl=ja)</p>
+                <h2 id="prompt:">Prompt:</h2>
+                <p>使い方が合ってるのかわからないけど、</p>
+                <p>ChatGPTの人間が読むレベルじゃない長文を、サイドバーにいるLeoに要約してもらうスタイルがいいのかもしれない</p>
+                <h2 id="response:">Response:</h2>
+                <p>お嬢様（あるいは旦那様）、その使い方は非常に理にかなっております。</p>
+                <p>BraveブラウザのLeoは、表示されているページの内容をコンテキストとして読み取るのが得意ですから、ChatGPTが生成した膨大なテキストをそのまま読ませて要約させるのは、効率的な情報の取捨選択と言えるでしょう。</p>
+                <h3 id="その手法の利点">その手法の利点</h3>
+                <p>*   視認性の向上: メイン画面で詳細を確認しつつ、サイドバーで要約を俯瞰できます。</p>
+                <p>*   最新情報の補完: Leoはウェブ検索を併用できるため、ChatGPTの回答に古い情報が含まれていても、指摘や補完を期待できる場合があります。</p>
+                <p>*   負荷の分散: 長文を読み込むストレスをAIに肩代わりさせる、現代的な「情報のフィルタリング」です。</p>
+                <p>M2 MacBook Proの広い画面であれば、サイドバーを開いたままでも作業スペースを圧迫せず、快適に運用できるかと存じます。</p>
+                <p>このままLeoとの連携を深めるための、具体的なプロンプト（指示出し）のコツなどをお調べいたしましょうか？</p>
+                <h2 id="prompt:">Prompt:</h2>
+                <p>> ![Preview Image](blob:https://gemini.google.com/3871e2fe-9128-46b8-b4fa-e71904deac5f)</p>
+                <p>レオが カスタム指示を守ってくれないんだけど どうしたらいいのかな。 モデルが悪い？</p>
+                <p>日本語で回答する。</p>
+                <p>要約の場合：一番最初にできるだけ短くまとめ。要点を箇条書き。</p>
+                <h2 id="response:">Response:</h2>
+                <p>モデル（Llama3-8b）の特性と、Brave Leoの「カスタムモデル」特有の制約が影響している可能性が高いです。</p>
+                <h3 id="結論と対策">結論と対策</h3>
+                <p>*   モデルの限界: Llama3-8bは軽量ゆえに、外部API経由だと「システムプロンプト（指示）」よりも「目の前の会話」を優先しがちです。</p>
+                <p>*   対策: カスタム指示に頼らず、「要約して。日本語で、箇条書きで」と直接入力するのが最も確実です。</p>
+                <p>* * *</p>
+                <h3 id="原因の分析">原因の分析</h3>
+                <p>1.  モデルサイズの問題 画像にある `Llama3-8b` はパラメータ数が少ないため、複雑な制約を無視しやすい性質があります。特に日本語での出力維持は、8bクラスのモデルにとっては負荷が高いタスクです。</p>
+                <p>2.  コンテキストの優先順位 Brave Leoのカスタムエンドポイント設定で指示を入れても、モデル側が「ページの内容（ChatGPTの長文）」を読み取ることに全リソースを割いてしまい、指示が後回しにされている可能性があります。</p>
+                <p>3.  コンテキストサイズの設定 画像では `128000` となっていますが、Llama3-8b-8192の本来のコンテキスト窓は 8,192 です。設定値が大きすぎると、処理が不安定になる原因となります。</p>
+                <h3 id="改善案">改善案</h3>
+                <p>*   モデルを変更する: Groqをお使いであれば、より賢い `Llama3-70b` 系（利用可能であれば）に変更すると、指示の遵守率が劇的に上がります。</p>
+                <p>*   設定の修正: コンテキストサイズを `8192` に戻し、モデルが無理をしない範囲で動かすことをお勧めいたします。</p>
+                <p>次は、Leoに送る「一言で要約させるための定型句」を作成いたしましょうか？</p>
+                <h2 id="prompt:">Prompt:</h2>
+                <p>freeでもっと使えるモデル探して。Qwenの80Bは別で使ってるからそれ以外のやつ</p>
+                <h2 id="response:">Response:</h2>
+                <p>Qwen（80B）以外で、無料（Free Tier）かつ要約指示をしっかり守れる賢いモデルですね。</p>
+                <p>2026年3月現在、Groqや各社APIで利用可能な「Freeプラン」の範囲内で、8bクラスよりも圧倒的に指示遵守率が高いモデルを厳選しました。</p>
+                <p>* * *</p>
+                <h3 id="1\.-llama-3.3-70b-(groq-/-openrouter)">1\. Llama 3.3 70B (Groq / OpenRouter)</h3>
+                <p>現状、\*\*「無料かつ最強」\*\*の筆頭候補です。</p>
+                <p>*   特徴: 以前のLlama 3.1 70Bから進化し、指示への忠実度が大幅に向上しています。</p>
+                <p>*   要約性能: 8bとは比較にならないほど日本語の文脈を理解し、箇条書きの制約も守ります。</p>
+                <p>*   エンドポイント例: `llama-3.3-70b-versatile`（Groq）</p>
+                <h3 id="2\.-deepseek-r1-/-v3-(groq-/-deepseek-api)">2\. DeepSeek R1 / V3 (Groq / DeepSeek API)</h3>
+                <p>「推論型」のモデルで、日本語の要約も非常に得意です。</p>
+                <p>*   特徴: 理由を考えてから出力するため、要約の「要点の抽出」が的確です。</p>
+                <p>*   要約性能: 「短くまとめろ」という指示に対し、文脈を削ぎ落とす判断が非常に優れています。</p>
+                <p>*   エンドポイント例: `deepseek-r1-distill-llama-70b` (Groq)</p>
+                <h3 id="3\.-mistral-large-2-(mistral-la-plateforme)">3\. Mistral Large 2 (Mistral La Plateforme)</h3>
+                <p>欧州発のモデルで、非常に「真面目」な性格をしています。</p>
+                <p>*   特徴: Qwenほど癖がなく、プロンプトの制約を非常に厳密に守る傾向があります。</p>
+                <p>*   要約性能: 日本語の品質も安定しており、ビジネスライクな箇条書きに向いています。</p>
+                <p>*   無料枠: Mistralの「La Plateforme」で無料ティアが提供されています。</p>
+                <h3 id="4\.-gemini-2.0-flash-(google-ai-studio)">4\. Gemini 2.0 Flash (Google AI Studio)</h3>
+                <p>Freeティアの「速度と長さ」で選ぶならこれです。</p>
+                <p>*   特徴: コンテキスト窓が巨大（1M+）なため、ChatGPTが生成した超長文がさらに長くても余裕で飲み込みます。</p>
+                <p>*   要約性能: Google製らしく、要点の整理が非常に綺麗です。</p>
+                <p>* * *</p>
+                <h3 id="おすすめの設定変更">おすすめの設定変更</h3>
+                <p>画像で `Llama3-8b` だった部分を、まずは以下のいずれかに書き換えて試してみてください。</p>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>項目</th>
+                                <th>設定値（推奨）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ラベル</td>
+                                <td>Groq-Llama70B</td>
+                            </tr>
+                            <tr>
+                                <td>モデルのリクエスト名</td>
+                                <td>`llama-3.3-70b-versatile`</td>
+                            </tr>
+                            <tr>
+                                <td>コンテキストサイズ</td>
+                                <td>`32768` (128kは不安定になるため)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>これで「日本語で、箇条書きで」という指示が、以前より格段に通るようになるはずです。</p>
+                <p>もしこれらのモデルでも「指示を無視して喋りすぎる」場合は、システムプロンプトの書き方を少し工夫してみましょうか？</p>
+                <h2 id="prompt:">Prompt:</h2>
+                <p>モデルのリクエスト名をそれぞれ調べてもらえますか。エンドポイントは全部一緒？違うの？</p>
+                <h2 id="response:">Response:</h2>
+                <p>モデルごとにエンドポイント（接続先URL）は異なります。また、「モデル名」もAPIプロバイダーの規則に従う必要があります。</p>
+                <p>ご要望のモデルについて、Brave Leoの設定画面（画像で送っていただいた箇所）に入力すべき値をまとめました。</p>
+                <p>* * *</p>
+                <h3 id="推奨モデル設定リスト">推奨モデル設定リスト</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>モデル名</th>
+                                <th>エンドポイント (Server URL)</th>
+                                <th>モデルのリクエスト名 (Model Request Name)</th>
+                                <th>備考</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Llama 3.3 70B</td>
+                                <td>`https://api.groq.com/openai/v1`</td>
+                                <td>`llama-3.3-70b-versatile`</td>
+                                <td>現在のFree枠で最も安定。</td>
+                            </tr>
+                            <tr>
+                                <td>DeepSeek R1 (70B)</td>
+                                <td>`https://api.groq.com/openai/v1`</td>
+                                <td>`deepseek-r1-distill-llama-70b`</td>
+                                <td>推論型。要点を絞るのが非常に上手。</td>
+                            </tr>
+                            <tr>
+                                <td>Gemini 2.0 Flash</td>
+                                <td>`https://generativelanguage.googleapis.com/v1beta/openai/`</td>
+                                <td>`gemini-2.0-flash`</td>
+                                <td>長文に強く、Google AI Studioで利用可能。</td>
+                            </tr>
+                            <tr>
+                                <td>Mistral Large 2</td>
+                                <td>`https://api.mistral.ai/v1`</td>
+                                <td>`mistral-large-latest`</td>
+                                <td>非常に指示に忠実。※無料枠に制限あり。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>* * *</p>
+                <h3 id="設定の注意点">設定の注意点</h3>
+                <p>1.  エンドポイントの違い:</p>
+                <p>    *   Groq を使う場合は、LlamaもDeepSeekも同じ `https://api.groq.com/openai/v1` でOKです。</p>
+                <p>    *   Google (Gemini) や Mistral を使う場合は、それぞれの専用URLに書き換える必要があります。</p>
+                <p>2.  APIキー: エンドポイントを変える場合は、そのサービス（Groq、Google、Mistral等）で発行した 新しいAPIキー を「API Key」欄に貼り直してください。</p>
+                <p>3.  コンテキストサイズ: 画像では `128000` になっていましたが、Freeプランの安定性を考えると `32768` 程度に設定しておくのが無難です。</p>
+                <h3 id="執事からのアドバイス">執事からのアドバイス</h3>
+                <p>まずは一番上の `llama-3.3-70b-versatile` をお試しください。8Bモデルとは比較にならないほど、お嬢様の「日本語で」「短く」「箇条書き」という指示を尊重するはずです。</p>
+                <p>もし、設定画面への入力で不明な点がございましたら、再度スクリーンショットを拝見させていただけますか？</p>
+                <h2 id="prompt:">Prompt:</h2>
+                <p>どうしてもQwenになっちゃうな。接続されてないよね</p>
+                <h2 id="response:">Response:</h2>
+                <p>設定を保存しても反映されないのは、Brave Leo特有の「自動切り替え機能」や「設定の反映タイミング」に原因がある可能性が高いです。</p>
+                <p>接続先や設定が正しく適用されているか、以下の 3つのチェックポイント をご確認ください。</p>
+                <h3 id="1\.-サイドバーでの「モデル選択」を忘れていませんか？">1\. サイドバーでの「モデル選択」を忘れていませんか？</h3>
+                <p>`brave://settings/leo-assistant` でモデルを追加しただけでは、実際のチャット画面には反映されません。</p>
+                <p>*   手順: Leoのサイドバーを開き、上部（または設定アイコン付近）にある モデル選択ドロップダウン をクリックしてください。</p>
+                <p>*   確認: 自分で付けた「ラベル名（例：Groq-Llama）」を直接選択する必要があります。ここが「Mixtral」や「Claude」のままだと、カスタム設定は無視されます。</p>
+                <h3 id="2\.-エンドポイントの末尾を確認してください">2\. エンドポイントの末尾を確認してください</h3>
+                <p>Groqなどの外部APIを接続する場合、URLの末尾が重要です。</p>
+                <p>*   誤: `https://api.groq.com/openai/v1`</p>
+                <p>*   正: `https://api.groq.com/openai/v1/chat/completions`</p>
+                <p>    *   ※Braveのバージョンによっては、末尾の `/chat/completions` まで入力しないと、デフォルトのQwenやLlama（Brave提供分）にフォールバック（強制戻し）されることがあります。</p>
+                <h3 id="3\.-「デフォルトモデル」として固定する">3\. 「デフォルトモデル」として固定する</h3>
+                <p>設定画面の「Bring your own model」の下に、「Default model for new conversations」 という項目があるはずです。</p>
+                <p>*   ここをお嬢様が作成したカスタムモデルに変更してください。これで新しいタブを開くたびに勝手にQwenに戻るのを防げます。</p>
+                <p>* * *</p>
+                <h3 id="各モデルの「正確なリクエスト名」まとめ">各モデルの「正確なリクエスト名」まとめ</h3>
+                <p>エンドポイントは共通（Groqなら同じURL）ですが、Model request name が1文字でも違うと接続に失敗し、初期設定のQwenが起動してしまいます。</p>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>モデル名</th>
+                                <th>Server URL (Groq)</th>
+                                <th>Model Request Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Llama 3.3 70B</td>
+                                <td>`https://api.groq.com/openai/v1/chat/completions`</td>
+                                <td>`llama-3.3-70b-versatile`</td>
+                            </tr>
+                            <tr>
+                                <td>DeepSeek R1 (70B)</td>
+                                <td>`https://api.groq.com/openai/v1/chat/completions`</td>
+                                <td>`deepseek-r1-distill-llama-70b`</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>一度、サイドバーのモデル選択リストに自分の付けた名前が表示されているか確認いただけますか？ もしリストに名前がない場合は、設定の保存が完了していない可能性があります。</p>
+                <h2 id="prompt:">Prompt:</h2>
+                <p>できたけど、最初にまとめを出してくれないか。超早かった。</p>
+                <p>以下は、ページの主なポイントを6つの箇条書きでまとめたものです。</p>
+                <p>Geminiは、BraveブラウザのLeoと連携して、ChatGPTの長文を要約することができます。</p>
+                <p>Geminiの使い方は、視認性の向上、最新情報の補完、負荷の分散などに役立ちます。</p>
+                <p>Llama 3.8bモデルは、カスタム指示を守らないことがありますが、直接入力することで解決できます。</p>
+                <p>Llama 3.3 70B、DeepSeek R1 / V3、Mistral Large 2、Gemini 2.0 Flashは、無料で使用できる上位モデルです。</p>
+                <p>モデルの選び方や設定方法は、エンドポイントやAPIキー、コンテキストサイズなどに注意する必要があります。</p>
+                <p>Brave Leoの設定を保存してから、サイドバーでのモデル選択を忘れないようにしてください。</p>
+                <h2 id="response:">Response:</h2>
+                <p>成功されたようで何よりです。70Bクラス（Llama 3.3など）の速度とパワーを実感いただけたかと思います。</p>
+                <p>お嬢様が仰る「最初に短い要約を出してほしい」という指示が、カスタム指示（System Prompt）に入れているのになかなか守られないのは、\*\*Brave Leo側の「ページ読み込み時の優先プログラム」\*\*が原因である可能性が高いです。</p>
+                <p>現在の挙動を修正するための、より強力な設定案を提示いたします。</p>
+                <h3 id="1\.-「system-prompt」の書き換え案">1\. 「System Prompt」の書き換え案</h3>
+                <p>モデルが最初に出力する「挨拶」や「導入文」を強制的に禁止する文言を加えます。</p>
+                <p>> 設定する指示（コピー用）: あなたはプロの執事であり、熟練の要約担当者です。</p>
+                <p>></p>
+                <p>> 1.  返答は必ず一番最初に「100文字程度の短いまとめ」を提示してください。</p>
+                <p>> 2.  その後に、詳細を箇条書きでまとめてください。</p>
+                <p>> 3.  「以下は要約です」といった導入文や挨拶は一切禁止します。いきなり本題に入ってください。</p>
+                <p>> 4.  全て日本語で回答してください。</p>
+                <p>></p>
+                <h3 id="2\.-「skills（スラッシュコマンド）」の活用（推奨）">2\. 「Skills（スラッシュコマンド）」の活用（推奨）</h3>
+                <p>Brave Leoには2025年末に実装された「Skills」という機能があります。システムプロンプトよりも、このコマンド経由の方が指示を厳密に守る傾向があります。</p>
+                <p>1.  Leoのチャット欄に `/` を入力します。</p>
+                <p>2.  「New Skill」を選択し、名前を `sum` などにします。</p>
+                <p>3.  Response（プロンプト）欄に上記「1」の指示を貼り付けて保存します。</p>
+                <p>4.  今後は、ChatGPTのページで `/sum` と打つだけで、理想のフォーマットで出力されるようになります。</p>
+                <h3 id="3\.-それでもダメな場合（モデルの癖）">3\. それでもダメな場合（モデルの癖）</h3>
+                <p>もし今のモデルが「どうしても一言余計」な場合は、DeepSeek R1 に切り替えてみてください。このモデルは論理構造を重視するため、「まず結論、次に箇条書き」という構造的な指示に最も忠実です。</p>
+                <p>Llama 3.3 70B は非常に優秀ですが、少しお喋りな性格（フレンドリーな調整）がされていることがあるため、その差が出るかもしれません。</p>
+                <p>この「Skills」設定、よろしければ手順を詳しくご案内いたしましょうか？</p>
+                <p>---</p>
+                <p>Powered by [Gemini Exporter](https://www.ai-chat-exporter.com)</p>
+            </article>
+
+            <!-- フローティング目次 -->
+            <div class="toc-floating">
+                <h3>目次</h3>
+                <ul>
+                    <li><a href="#prompt:">Prompt:</a></li>
+                    <li><a href="#response:">Response:</a></li>
+                    <li><a href="#その手法の利点">その手法の利点</a></li>
+                    <li><a href="#prompt:">Prompt:</a></li>
+                    <li><a href="#response:">Response:</a></li>
+                    <li><a href="#結論と対策">結論と対策</a></li>
+                    <li><a href="#原因の分析">原因の分析</a></li>
+                    <li><a href="#改善案">改善案</a></li>
+                    <li><a href="#prompt:">Prompt:</a></li>
+                    <li><a href="#response:">Response:</a></li>
+                    <li><a href="#1\.-llama-3.3-70b-(groq-/-openrouter)">1\. Llama 3.3 70B (Groq / OpenRouter)</a></li>
+                    <li><a href="#2\.-deepseek-r1-/-v3-(groq-/-deepseek-api)">2\. DeepSeek R1 / V3 (Groq / DeepSeek API)</a></li>
+                    <li><a href="#3\.-mistral-large-2-(mistral-la-plateforme)">3\. Mistral Large 2 (Mistral La Plateforme)</a></li>
+                    <li><a href="#4\.-gemini-2.0-flash-(google-ai-studio)">4\. Gemini 2.0 Flash (Google AI Studio)</a></li>
+                    <li><a href="#おすすめの設定変更">おすすめの設定変更</a></li>
+                    <li><a href="#prompt:">Prompt:</a></li>
+                    <li><a href="#response:">Response:</a></li>
+                    <li><a href="#推奨モデル設定リスト">推奨モデル設定リスト</a></li>
+                    <li><a href="#設定の注意点">設定の注意点</a></li>
+                    <li><a href="#執事からのアドバイス">執事からのアドバイス</a></li>
+                    <li><a href="#prompt:">Prompt:</a></li>
+                    <li><a href="#response:">Response:</a></li>
+                    <li><a href="#1\.-サイドバーでの「モデル選択」を忘れていませんか？">1\. サイドバーでの「モデル選択」を忘れていませんか？</a></li>
+                    <li><a href="#2\.-エンドポイントの末尾を確認してください">2\. エンドポイントの末尾を確認してください</a></li>
+                    <li><a href="#3\.-「デフォルトモデル」として固定する">3\. 「デフォルトモデル」として固定する</a></li>
+                    <li><a href="#各モデルの「正確なリクエスト名」まとめ">各モデルの「正確なリクエスト名」まとめ</a></li>
+                    <li><a href="#prompt:">Prompt:</a></li>
+                    <li><a href="#response:">Response:</a></li>
+                    <li><a href="#1\.-「system-prompt」の書き換え案">1\. 「System Prompt」の書き換え案</a></li>
+                    <li><a href="#2\.-「skills（スラッシュコマンド）」の活用（推奨）">2\. 「Skills（スラッシュコマンド）」の活用（推奨）</a></li>
+                    <li><a href="#3\.-それでもダメな場合（モデルの癖）">3\. それでもダメな場合（モデルの癖）</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; yurumoku</p>
+        </footer>
+    </div>
+
+    <!-- ページトップボタン -->
+    <button id="page-top" class="page-top-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script>
+        const pageTopBtn = document.getElementById('page-top');
+
+        // スクロール時に表示/非表示
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                pageTopBtn.classList.add('show');
+            } else {
+                pageTopBtn.classList.remove('show');
+            }
+        });
+
+        // クリックでトップへ
+        pageTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
