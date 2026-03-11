@@ -130,19 +130,19 @@ python3 build_index.py
 手動で編集したHTMLファイルをgitの変更検知から除外する場合：
 
 ```bash
-git update-index --assume-unchanged posts/20260311-検索API比較.html
+git update-index --assume-unchanged posts/20260311-search-api-comparison.html
 ```
 
 これでそのファイルの変更はgit diffに表示されなくなります。
 
 ```python
 # ビルドから除外する記事（slug名）
-EXCLUDE_SLUGS = ["20260311-検索API比較", "別のslug"]
+EXCLUDE_SLUGS = ["20260311-search-api-comparison", "別のslug"]
 ```
 
 slugはディレクトリ名のことです：
 ```
-src/20260311-検索API比較/source.md
-     ^^^^^^^^^^^^^^^^^^^^
+src/20260311-search-api-comparison/source.md
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      これがslug
 ```
