@@ -1,17 +1,30 @@
 {
   "tags": {
-    "Python": ["api-comparison"],
-    "API": ["api-comparison"],
-    "SerperDev": ["api-comparison"],
-    "WebScraping": ["api-comparison"]
+    "Python": [
+      "20260311-検索API比較"
+    ],
+    "API": [
+      "20260311-検索API比較"
+    ],
+    "SerperDev": [
+      "20260311-検索API比較"
+    ],
+    "WebScraping": [
+      "20260311-検索API比較"
+    ]
   },
   "articles": {
-    "api-comparison": {
+    "20260311-検索API比較": {
       "title": "検索API比較：Webページ大量収集におけるオフセット制約の克服",
-      "file": "20260311-検索API比較/index.html",
+      "file": "posts/20260311-検索API比較.html",
       "date": "2026-03-11",
       "category": "技術調査",
-      "tags": ["Python", "API", "SerperDev", "WebScraping"]
+      "tags": [
+        "Python",
+        "API",
+        "SerperDev",
+        "WebScraping"
+      ]
     }
   }
 }

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>検索API比較：Webページ大量収集におけるオフセット制約の克服 | Tech Blog</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-space"></div>
+            <h1>検索API比較：Webページ大量収集におけるオフセット制約の克服</h1>
+            <p class="meta">2026-03-11 | カテゴリ: 技術調査</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <article>
+                <h2 id="結論">結論</h2>
+                <p>2,000〜3,000件の日本語ページ収集における最適解は **Serper.dev** です。Googleの検索結果をそのまま取得でき、日本語精度・網羅性ともに最高峰。初回2,500件の無料枠と、1,000リクエストあたり$1という激安価格で、今回の用途に最適でした。</p>
+                <h2 id="何をしたかったか">何をしたかったか</h2>
+            <ul>
+                <li>**目的**: 日本国内のコーダー・Web制作パートナー募集ページを網羅的に収集する</li>
+                <li>**対象数**: 推定2,000〜3,000件規模</li>
+                <li>**環境**: Pythonを利用</li>
+            </ul>
+                <h2 id="分かったこと">分かったこと</h2>
+            <ul>
+                <li>**Google Custom Searchの現状**: 2026年1月より新規のウェブ全体検索が不可（サイト内検索に限定）。既存ユーザーも2027年1月に廃止予定</li>
+                <li>**Serper.devの優位性**: Googleの検索結果（`gl=jp`, `hl=ja`）をそのまま低価格で叩ける。今回の3,000件規模なら無料枠＋αで完結する</li>
+                <li>**AI特化型APIの台頭**: TavilyやExaは、従来のキーワードマッチングだけでなく、AIによるフィルタリングや意味ベースの検索が可能</li>
+            </ul>
+                <h2 id="試したこと">試したこと</h2>
+                <p>日本語の網羅性と「激安」なコストを条件に、ページネーション対応の代替APIを比較調査しました。</p>
+                <h2 id="起きた問題">起きた問題</h2>
+            <ul>
+                <li>**既存ツールの限界**: DuckDuckGo Search（ddgs）を使用していたが、オフセット（ページネーション）指定ができない</li>
+                <li>**結果の重複**: 同じ検索結果が返ってしまい、3,000件規模の網羅的な収集が困難</li>
+                <li>**主要APIの廃止**:</li>
+            </ul>
+                <p>  - **Google Custom Search**: 2026年1月より新規のウェブ全体検索が不可（サイト内検索に限定）</p>
+                <p>  - **Bing Web Search**: 2025年8月にサービス終了済み</p>
+                <h2 id="推奨プラン">推奨プラン</h2>
+                <p>**第一選択：Serper.dev** — Googleの網羅性を維持しつつ、`page`ループでオフセット問題を解決。コストが激安（初回2,500件無料）でPython SDKも完備。</p>
+                <p>**補完：Tavily Search** — Googleで拾いきれない、あるいはノイズが多い場合に「AI検索」として併用。</p>
+                <p>**実装の工夫** — 単一クエリのオフセットだけでなく、「地域名 ＋ キーワード」などの掛け合わせでリクエストを分散させ、網羅性を高めるアプローチが有効です。</p>
+
+                <h2 id="what-i-wanted">何をしたかったか</h2>
+                <ul>
+                    <li><strong>目的</strong>: {{目的}}</li>
+                    <li><strong>対象</strong>: {{対象範囲}}</li>
+                    <li><strong>環境</strong>: {{環境}}</li>
+                </ul>
+
+                <h2 id="what-i-found">分かったこと</h2>
+                <ul>
+                    <li>{{気づき1}}</li>
+                    <li>{{気づき2}}</li>
+                    <li>{{気づき3}}</li>
+                </ul>
+
+                <h2 id="what-i-tried">試したこと</h2>
+                <p>{{試した内容の説明}}</p>
+
+                <!-- 必要に応じてテーブルを挿入 -->
+                <!--
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>項目1</th>
+                                <th>項目2</th>
+                                <th>項目3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>データ1</td>
+                                <td>データ2</td>
+                                <td>データ3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                -->
+
+                <h2 id="problems">起きた問題</h2>
+                <ul>
+                    <li><strong>問題1</strong>: {{説明}}</li>
+                    <li><strong>問題2</strong>: {{説明}}</li>
+                </ul>
+
+                <!-- 任意の追加セクション -->
+                <h2 id="notes">補足</h2>
+                <p>{{補足情報があればここに記述}}</p>
+
+                <!-- タグ（非表示） -->
+                <div class="tag-container" style="display:none;">
+                    <span class="tag">#{{タグ1}}</span>
+                    <span class="tag">#{{タグ2}}</span>
+                    <span class="tag">#{{タグ3}}</span>
+                </div>
+
+            </article>
+
+            <!-- フローティング目次 -->
+            <div class="toc-floating">
+                <h3>目次</h3>
+                <ul>
+                    <li><a href="#conclusion">結論</a></li>
+                    <li><a href="#what-i-wanted">何をしたかったか</a></li>
+                    <li><a href="#what-i-found">分かったこと</a></li>
+                    <li><a href="#what-i-tried">試したこと</a></li>
+                    <li><a href="#problems">起きた問題</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; yurumoku</p>
+        </div>
+    </footer>
+
+    <!-- ページトップボタン -->
+    <button id="page-top" class="page-top-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script>
+        const pageTopBtn = document.getElementById('page-top');
+
+        // スクロール時に表示/非表示
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                pageTopBtn.classList.add('show');
+            } else {
+                pageTopBtn.classList.remove('show');
+            }
+        });
+
+        // クリックでトップへ
+        pageTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
