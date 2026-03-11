@@ -208,6 +208,10 @@ aside {
     .container {
         padding: 16px;
     }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
 }
 
 .sidebar-card {
