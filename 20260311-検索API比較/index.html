@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>検索API比較：Webページ大量収集におけるオフセット制約の克服 | Tech Blog</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --text-color: #1f2937;
+            --text-light: #6b7280;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --code-bg: #1f2937;
+            --accent-color: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        header .meta {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Article */
+        article {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        article h2 {
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        article h3 {
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--secondary-color);
+        }
+
+        article p {
+            margin-bottom: 1rem;
+        }
+
+        article ul, article ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        article li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 600px;
+        }
+
+        table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        table tr:hover {
+            background-color: #f3f4f6;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        /* Sidebar */
+        aside {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .sidebar-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .sidebar-card ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        .sidebar-card a {
+            color: var(--text-light);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+        }
+
+        .sidebar-card a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            background: var(--bg-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 0.25rem;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--code-bg);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--card-bg);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">Tech Blog</a>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/archive/">Archive</a></li>
+                <li><a href="/about/">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>検索API比較：Webページ大量収集におけるオフセット制約の克服</h1>
+            <p class="meta">2026年3月11日 | カテゴリ: 技術調査</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <article>
+                <h2 id="conclusion">結論</h2>
+                <p>2,000〜3,000件の日本語ページ収集における最適解は <strong>Serper.dev</strong> です。Googleの検索結果をそのまま取得でき、日本語精度・網羅性ともに最高峰。初回2,500件の無料枠と、1,000リクエストあたり$1という激安価格で、今回の用途に最適でした。</p>
+
+                <h2 id="what-i-wanted">何をしたかったか</h2>
+                <ul>
+                    <li><strong>目的</strong>: 日本国内のコーダー・Web制作パートナー募集ページを網羅的に収集する</li>
+                    <li><strong>対象数</strong>: 推定2,000〜3,000件規模</li>
+                    <li><strong>環境</strong>: Pythonを利用</li>
+                </ul>
+
+                <h2 id="what-i-found">分かったこと</h2>
+                <ul>
+                    <li><strong>Google Custom Searchの現状</strong>: 2026年1月より新規のウェブ全体検索が不可（サイト内検索に限定）。既存ユーザーも2027年1月に廃止予定</li>
+                    <li><strong>Serper.devの優位性</strong>: Googleの検索結果（<code>gl=jp</code>, <code>hl=ja</code>）をそのまま低価格で叩ける。今回の3,000件規模なら無料枠＋αで完結する</li>
+                    <li><strong>AI特化型APIの台頭</strong>: TavilyやExaは、従来のキーワードマッチングだけでなく、AIによるフィルタリングや意味ベースの検索が可能</li>
+                </ul>
+
+                <h2 id="what-i-tried">試したこと</h2>
+                <p>日本語の網羅性と「激安」なコストを条件に、ページネーション対応の代替APIを比較調査しました。</p>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>API名</th>
+                                <th>オフセット指定</th>
+                                <th>1,000件単価</th>
+                                <th>特徴</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Serper.dev</strong></td>
+                                <td><code>page</code> パラメータ</td>
+                                <td><strong>約$1.00</strong></td>
+                                <td>Google生データ。無料枠2,500件。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tavily Search</strong></td>
+                                <td><code>max_results</code></td>
+                                <td><strong>約$0.30</strong></td>
+                                <td>AI特化型。ノイズ除去済みの結果。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SerpApi</strong></td>
+                                <td><code>start</code> パラメータ</td>
+                                <td>約$15.00</td>
+                                <td>高機能・高精度だが、収集用としては高価。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Exa</strong></td>
+                                <td><code>offset</code></td>
+                                <td>約$1.00〜</td>
+                                <td>意味検索（「募集ページ」という概念）で探せる。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Brave Search</strong></td>
+                                <td><code>offset</code></td>
+                                <td>$5.00</td>
+                                <td>独自インデックス。最大9ページ制限あり。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 id="problems">起きた問題</h2>
+                <ul>
+                    <li><strong>既存ツールの限界</strong>: DuckDuckGo Search（ddgs）を使用していたが、オフセット（ページネーション）指定ができない</li>
+                    <li><strong>結果の重複</strong>: 同じ検索結果が返ってしまい、3,000件規模の網羅的な収集が困難</li>
+                    <li><strong>主要APIの廃止</strong>:
+                        <ul>
+                            <li><strong>Google Custom Search</strong>: 2026年1月より新規のウェブ全体検索が不可（サイト内検索に限定）</li>
+                            <li><strong>Bing Web Search</strong>: 2025年8月にサービス終了済み</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h2>推奨プラン</h2>
+                <p><strong>第一選択：Serper.dev</strong> — Googleの網羅性を維持しつつ、<code>page</code>ループでオフセット問題を解決。コストが激安（初回2,500件無料）でPython SDKも完備。</p>
+                <p><strong>補完：Tavily Search</strong> — Googleで拾いきれない、あるいはノイズが多い場合に「AI検索」として併用。</p>
+                <p><strong>実装の工夫</strong> — 単一クエリのオフセットだけでなく、「地域名 ＋ キーワード」などの掛け合わせでリクエストを分散させ、網羅性を高めるアプローチが有効です。</p>
+
+            </article>
+
+            <aside>
+                <div class="sidebar-card">
+                    <h3>目次</h3>
+                    <ul>
+                        <li><a href="#conclusion">結論</a></li>
+                        <li><a href="#what-i-wanted">何をしたかったか</a></li>
+                        <li><a href="#what-i-found">分かったこと</a></li>
+                        <li><a href="#what-i-tried">試したこと</a></li>
+                        <li><a href="#problems">起きた問題</a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>タグ</h3>
+                    <div>
+                        <span class="tag">#Python</span>
+                        <span class="tag">#WebScraping</span>
+                        <span class="tag">#API</span>
+                        <span class="tag">#SerperDev</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Tech Blog. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

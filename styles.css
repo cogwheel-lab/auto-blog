@@ -1,0 +1,353 @@
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --text-color: #1f2937;
+    --text-light: #6b7280;
+    --bg-color: #f9fafb;
+    --card-bg: #ffffff;
+    --border-color: #e5e7eb;
+    --code-bg: #1f2937;
+    --accent-color: #10b981;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 2rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo-space {
+    height: 40px;
+    margin-bottom: 1rem;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+header .meta {
+    opacity: 0.9;
+    font-size: 0.75rem;
+}
+
+/* Main Layout */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Article */
+article {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+article h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+article h3 {
+    font-size: 1.4rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--secondary-color);
+}
+
+article p {
+    margin-bottom: 1rem;
+}
+
+article ul, article ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+article li {
+    margin-bottom: 0.5rem;
+}
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    min-width: 600px;
+}
+
+table th {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+table tr:hover {
+    background-color: #f3f4f6;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+/* Sidebar */
+aside {
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+/* Floating TOC */
+.toc-floating {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 200px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    border-radius: 12px;
+}
+
+.toc-floating h3 {
+    font-size: 0.75rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-color);
+}
+
+.toc-floating ul {
+    list-style: none;
+    margin: 0;
+}
+
+.toc-floating a {
+    color: var(--text-light);
+    text-decoration: none;
+    display: block;
+    padding: 0.25rem 0;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.toc-floating a:hover {
+    color: var(--primary-color);
+}
+
+@media (max-width: 1024px) {
+    .toc-floating {
+        display: none;
+    }
+}
+
+.sidebar-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.sidebar-card ul {
+    list-style: none;
+    margin: 0;
+}
+
+.sidebar-card a {
+    color: var(--text-light);
+    text-decoration: none;
+    display: block;
+    padding: 0.5rem 0;
+    transition: color 0.2s;
+}
+
+.sidebar-card a:hover {
+    color: var(--primary-color);
+}
+
+/* Tags */
+.tag {
+    display: inline-block;
+    background: var(--bg-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin: 0.25rem;
+    color: var(--text-light);
+}
+
+/* タグセクションごと非表示 */
+.tag-container {
+    display: none;
+}
+
+/* Footer */
+footer {
+    background: var(--code-bg);
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 2rem;
+    font-size: 0.7rem;
+}
+
+/* Article List (for top page) */
+.article-list {
+    list-style: none;
+}
+
+.article-list li {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.article-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.article-list a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.article-list h2 {
+    font-size: 1.4rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--primary-color);
+    border: none;
+    padding: 0;
+}
+
+.article-list .meta {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.article-list .excerpt {
+    margin-top: 0.75rem;
+    color: var(--text-color);
+}
+
+/* Code */
+code {
+    background: var(--bg-color);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+    font-size: 0.9em;
+}
+
+pre {
+    background: var(--code-bg);
+    color: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+/* Page Top Button */
+.page-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.page-top-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.page-top-btn:active {
+    transform: translateY(-1px);
+}
