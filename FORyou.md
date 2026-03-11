@@ -16,6 +16,10 @@ source.md にまとめる（フロントマター付き）
 python3 build.py を実行
     ↓
 記事HTML と タグページ が自動生成
+    ↓
+python3 build_index.py を実行（index.html更新時のみ）
+    ↓
+index.html が生成
 ```
 
 ## ディレクトリ構成
@@ -59,6 +63,7 @@ category: 技術調査
 
 4. `python3 build.py` を実行
 5. `posts/` と `tags/` にHTMLが生成される
+6. index.htmlを更新する場合は `python3 build_index.py` を実行
 
 ## フロントマターに書ける項目
 
@@ -73,7 +78,26 @@ category: 技術調査
 
 - `posts/{slug}.html` — 記事HTML
 - `tags/{タグ名}.html` — タグ一覧ページ
-- `tags.json` — タグ管理用JSON
+- `assets/tags.json` — タグ管理用JSON
+- `index.html` — トップページ（build_index.pyで生成）
+
+## ビルドスクリプト
+
+### build.py - 記事のビルド
+新しい記事を追加したときに実行します。
+
+```bash
+python3 build.py
+```
+
+既存のHTMLはスキップされるので、安心して実行できます。
+
+### build_index.py - トップページの生成
+index.htmlを更新するときに実行します。手動で編集した内容は上書きされるので注意してください。
+
+```bash
+python3 build_index.py
+```
 
 ## 記事の書き方ルール
 
@@ -93,8 +117,9 @@ category: 技術調査
 ## 注意点
 
 - タグ名は英語推奨（URLになるため）
-- 記事追加後は必ず `build.py` を実行
+- 記事追加後は必ず `build.py` を実行（記事HTMLの生成）
 - `source.md` の変更も `build.py` で反映
+- index.htmlを更新するには `build_index.py` を実行
 
 ## 手動編集した記事をビルドから除外する方法
 
