@@ -1,0 +1,11 @@
+.env
+.DS_Store
+
+# ソースディレクトリ（生成元のMarkdownのみ無視）
+src/
+
+# Claudeディレクトリ
+.claude/
+
+# リクエストファイル（一時的なメモ）
+REQUEST.md

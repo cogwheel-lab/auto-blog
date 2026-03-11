@@ -14,9 +14,9 @@ from datetime import datetime
 SRC_DIR = Path("src")
 POSTS_DIR = Path("posts")
 TAGS_DIR = Path("tags")
-TEMPLATE_FILE = Path("template.html")
-STYLES_FILE = Path("styles.css")
-TAGS_JSON_FILE = Path("tags.json")
+TEMPLATE_FILE = Path("template/template.html")
+STYLES_FILE = Path("assets/styles.css")
+TAGS_JSON_FILE = Path("assets/tags.json")
 
 # ディレクトリ作成
 POSTS_DIR.mkdir(exist_ok=True)
@@ -139,7 +139,7 @@ def generate_tag_pages(tags_data):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>タグ: {tag} | Tech Blog</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../assets/styles.css">
     <link rel="icon" type="image/png" href="../assets/favicon.png">
 </head>
 <body>
