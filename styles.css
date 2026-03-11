@@ -204,6 +204,10 @@ aside {
     header {
         padding: 0;
     }
+
+    .container {
+        padding: 16px;
+    }
 }
 
 .sidebar-card {
