@@ -251,8 +251,8 @@ aside {
 
 /* Footer */
 footer {
-    background: var(--code-bg);
-    color: white;
+    /* background: var(--code-bg); */
+    /* color: white; */
     text-align: center;
     padding: 2rem 0;
     margin-top: 2rem;
