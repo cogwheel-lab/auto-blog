@@ -200,6 +200,10 @@ aside {
     .toc-floating {
         display: none;
     }
+
+    header {
+        padding: 0;
+    }
 }
 
 .sidebar-card {
