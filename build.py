@@ -143,14 +143,14 @@ def generate_tag_pages(tags_data):
     <link rel="icon" type="image/png" href="../assets/favicon.png">
 </head>
 <body>
-    <header>
-        <div class="container">
+    <div class="container">
+        <header>
             <div class="logo-space"></div>
             <div class="header-content">
                 <h1>タグ: {tag}</h1>
             </div>
-        </div>
-    </header>
+        </header>
+    </div>
 
     <div class="container">
         <ul class="article-list">
