@@ -140,12 +140,15 @@ def generate_tag_pages(tags_data):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>タグ: {tag} | Tech Blog</title>
     <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
 </head>
 <body>
     <header>
         <div class="container">
             <div class="logo-space"></div>
-            <h1>タグ: {tag}</h1>
+            <div class="header-content">
+                <h1>タグ: {tag}</h1>
+            </div>
         </div>
     </header>
 
