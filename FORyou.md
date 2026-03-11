@@ -94,3 +94,19 @@ category: 技術調査
 - タグ名は英語推奨（URLになるため）
 - 記事追加後は必ず `build.py` を実行
 - `source.md` の変更も `build.py` で反映
+
+## 手動編集した記事をビルドから除外する方法
+
+手動でHTMLを編集した記事など、ビルドで上書きされたくない場合は `build.py` の `EXCLUDE_SLUGS` にslug名を追加します。
+
+```python
+# ビルドから除外する記事（slug名）
+EXCLUDE_SLUGS = ["20260311-検索API比較", "別のslug"]
+```
+
+slugはディレクトリ名のことです：
+```
+src/20260311-検索API比較/source.md
+     ^^^^^^^^^^^^^^^^^^^^
+     これがslug
+```

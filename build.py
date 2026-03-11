@@ -18,6 +18,9 @@ TEMPLATE_FILE = Path("template/template.html")
 STYLES_FILE = Path("assets/styles.css")
 TAGS_JSON_FILE = Path("assets/tags.json")
 
+# ビルドから除外する記事（slug名）
+EXCLUDE_SLUGS = ["20260311-検索API比較"]
+
 # ディレクトリ作成
 POSTS_DIR.mkdir(exist_ok=True)
 TAGS_DIR.mkdir(exist_ok=True)
@@ -123,7 +126,9 @@ def markdown_to_html(body, slug):
                 html_lines.append('                </ul>')
                 in_ul = False
             text = line[4:]
-            html_lines.append(f'                <h3>{text}</h3>')
+            id = text.lower().replace(' ', '-').replace('：', '').replace('、', '')
+            html_lines.append(f'                <h3 id="{id}">{text}</h3>')
+            toc_items.append(f'                    <li><a href="#{id}">{text}</a></li>')
         # 箇条書き
         elif line.startswith('- '):
             if not in_ul:
@@ -249,6 +254,9 @@ def main():
             continue
 
         slug = item.name
+        # 除外リストに含まれていればスキップ
+        if slug in EXCLUDE_SLUGS:
+            continue
         source_file = item / 'source.md'
         if not source_file.exists():
             continue
