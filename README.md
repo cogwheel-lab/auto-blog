@@ -13,6 +13,7 @@ auto-blog/
 ├── index.html          # 記事一覧ページ（トップ）
 ├── template.html       # 記事詳細のテンプレート
 ├── styles.css          # 共通スタイルシート
+├── tags.json           # タグ管理ファイル
 └── YYYYMMDD-記事名/    # 各記事のディレクトリ
     └── index.html      # 記事詳細ページ
 ```
@@ -22,10 +23,15 @@ auto-blog/
 1. 新しい記事を追加する場合:
    - `YYYYMMDD-記事名/` のディレクトリを作成
    - `template.html` をベースに `index.html` を作成
+   - `tags.json` に記事情報を追加
    - 記事内容を記述
 
 2. 記事一覧を更新する場合:
    - `index.html` に新しい記事へのリンクを追加
+
+3. タグを管理する場合:
+   - `tags.json` を更新
+   - 各記事の `index.html` 内のタグも同期
 
 ## 記事のフォーマット
 
@@ -36,6 +42,10 @@ auto-blog/
 - 分かったこと
 - 試したこと
 - 起きた問題
+
+## tags.json について
+
+タグと記事のマッピングを管理するJSONファイル。詳細は `docs/tag管理法.md` を参照。
 
 ## 技術スタック
 

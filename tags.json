@@ -1,0 +1,17 @@
+{
+  "tags": {
+    "Python": ["api-comparison"],
+    "API": ["api-comparison"],
+    "SerperDev": ["api-comparison"],
+    "WebScraping": ["api-comparison"]
+  },
+  "articles": {
+    "api-comparison": {
+      "title": "検索API比較：Webページ大量収集におけるオフセット制約の克服",
+      "file": "20260311-検索API比較/index.html",
+      "date": "2026-03-11",
+      "category": "技術調査",
+      "tags": ["Python", "API", "SerperDev", "WebScraping"]
+    }
+  }
+}
