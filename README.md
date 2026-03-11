@@ -1,41 +1,78 @@
 # Auto Blog
 
-エンジニアの作業メモをブログ記事として自動生成するプロジェクト。
+AIとの対話記録をブログ記事として自動生成するシステム。
 
-## 目的
+## v1.1 アーキテクチャ
 
-AI（Gemini、Claudeなど）との対話記録を、読みやすいナレッジとして整理・蓄積する。
+フロントマター付きMarkdownを自動変換して、HTML・タグページ・tags.jsonを生成する。
 
 ## ディレクトリ構成
 
 ```
 auto-blog/
-├── index.html          # 記事一覧ページ（トップ）
-├── template.html       # 記事詳細のテンプレート
-├── styles.css          # 共通スタイルシート
-├── tags.json           # タグ管理ファイル
-└── YYYYMMDD-記事名/    # 各記事のディレクトリ
-    └── index.html      # 記事詳細ページ
+├── src/                    # ソースMarkdown（ここを編集）
+│   └── {slug}/
+│       └── source.md       # フロントマター付き記事本文
+├── posts/                  # 生成済み記事HTML（build.pyが生成）
+├── tags/                   # タグ一覧ページ（build.pyが生成）
+│   └── {tagname}.html
+├── build.py                # 自動生成スクリプト
+├── tags.json               # タグ管理JSON（build.pyが生成）
+├── template.html           # 記事HTMLテンプレート
+├── styles.css              # 共通スタイル
+├── CLAUDE.md               # AIへの指示（記事フォーマット等）
+├── FORyou.md               # 人間向けプロジェクト解説
+└── docs/
+    ├── blog-structure.md   # 設計メモ
+    └── tag管理法.md         # tags.json仕様
 ```
 
-## 使い方
+## ワークフロー
 
-1. 新しい記事を追加する場合:
-   - `YYYYMMDD-記事名/` のディレクトリを作成
-   - `template.html` をベースに `index.html` を作成
-   - `tags.json` に記事情報を追加
-   - 記事内容を記述
+1. **記事作成**: `src/{slug}/source.md` にフロントマター付きMarkdownを書く
+2. **ビルド**: `python3 build.py` を実行
+3. **生成物**:
+   - `posts/{slug}.html` — 記事HTML
+   - `tags/{tagname}.html` — タグページ
+   - `tags.json` — タグ管理JSON
 
-2. 記事一覧を更新する場合:
-   - `index.html` に新しい記事へのリンクを追加
+## フロントマター仕様
 
-3. タグを管理する場合:
-   - `tags.json` を更新
-   - 各記事の `index.html` 内のタグも同期
+```html
+<!--
+title: 記事タイトル
+tags: Python,API,SerperDev
+date: 2026-03-11
+category: 技術調査
+-->
+```
 
-## 記事のフォーマット
+### 必須フィールド
 
-各記事は以下の構造で記述する（CLAUDE.mdのルールに従う）:
+| フィールド | 説明 |
+|-----------|------|
+| title | 記事タイトル（HTMLのtitle, h1に使用） |
+| tags | カンマ区切りのタグ（タグページ自動生成に使用） |
+| date | YYYY-MM-DD形式 |
+
+### 任意フィールド
+
+| フィールド | 説明 |
+|-----------|------|
+| category | カテゴリ（メタ情報表示に使用） |
+| images | 画像ファイル情報（未実装） |
+
+## build.py の処理
+
+1. `src/` をスキャン
+2. `source.md` のフロントマターをパース
+3. `template.html` に本文を埋め込み、`posts/` に出力
+4. タグ情報を集約して `tags.json` を更新
+5. `tags/{tagname}.html` を生成
+
+## 記事フォーマット（CLAUDE.md）
+
+各記事は以下の構造:
 
 - 結論
 - 何をしたかったか
@@ -43,13 +80,27 @@ auto-blog/
 - 試したこと
 - 起きた問題
 
-## tags.json について
-
-タグと記事のマッピングを管理するJSONファイル。詳細は `docs/tag管理法.md` を参照。
-
 ## 技術スタック
 
-- 純粋なHTML + CSS
-- レスポンシブデザイン（モバイル対応）
-- CSS Grid / Flexbox
-- CSSカスタムプロパティ（変数）
+- **HTML/CSS**: 純粋なHTML + CSS（レスポンシブ、CSS Grid/Flexbox）
+- **ビルド**: Python 3
+- **ホスティング**: Cloudflare Pages想定
+
+## 記事追加手順
+
+```bash
+# 1. ディレクトリ作成
+mkdir -p "src/20260311-新しい記事"
+
+# 2. source.md 作成（フロントマター付き）
+# 3. ビルド実行
+python3 build.py
+```
+
+## 配信先
+
+| 媒体 | 用途 | 備考 |
+|------|------|------|
+| 自分のサイト（Cloudflare Pages） | メイン | `posts/` のHTMLを使用 |
+| はてなブログ | 流入・拡散 | 内容を変える（要約版） |
+| note | 有料販売 | 深掘り版 |
