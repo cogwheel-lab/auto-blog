@@ -54,15 +54,11 @@ def generate_article_html(slug, frontmatter, body, template):
     html = html.replace('{{記事タイトル}}', title)
     html = html.replace('{{YYYY年MM月DD日}}', date)
     html = html.replace('{{カテゴリ}}', category)
-    html = html.replace('{{YYYY}}', date[:4])
 
     # 本文をHTMLに変換
-    article_body = markdown_to_html(body, slug)
-    html = html.replace('                <h2 id="conclusion">結論</h2>\n                <p>{{結論の内容}}</p>', article_body)
-
-    # タグを更新
-    tag_html = '\n                '.join([f'<span class="tag">#{tag.strip()}</span>' for tag in tags])
-    html = html.replace('                <span class="tag">#{{タグ1}}</span>\n                <span class="tag">#{{タグ2}}</span>\n                <span class="tag">#{{タグ3}}</span>', tag_html)
+    article_body, toc_items = markdown_to_html(body, slug)
+    html = html.replace('{{ARTICLE_BODY}}', article_body.lstrip())
+    html = html.replace('{{TOC_ITEMS}}', toc_items.lstrip())
 
     return html, tags
 
@@ -70,51 +66,55 @@ def markdown_to_html(body, slug):
     """MarkdownをHTMLに変換（簡易版）"""
     lines = body.split('\n')
     html_lines = []
+    toc_items = []
     in_ul = False
 
     for line in lines:
         line = line.rstrip()
         if not line:
             if in_ul:
-                html_lines.append('            </ul>')
+                html_lines.append('                </ul>')
                 in_ul = False
             continue
 
         # 見出し
         if line.startswith('## '):
             if in_ul:
-                html_lines.append('            </ul>')
+                html_lines.append('                </ul>')
                 in_ul = False
             text = line[3:]
             id = text.lower().replace(' ', '-').replace('：', '').replace('、', '')
             html_lines.append(f'                <h2 id="{id}">{text}</h2>')
+            toc_items.append(f'                    <li><a href="#{id}">{text}</a></li>')
         elif line.startswith('### '):
             if in_ul:
-                html_lines.append('            </ul>')
+                html_lines.append('                </ul>')
                 in_ul = False
             text = line[4:]
             html_lines.append(f'                <h3>{text}</h3>')
         # 箇条書き
         elif line.startswith('- '):
             if not in_ul:
-                html_lines.append('            <ul>')
+                html_lines.append('                <ul>')
                 in_ul = True
             text = line[2:]
-            html_lines.append(f'                <li>{text}</li>')
+            html_lines.append(f'                    <li>{text}</li>')
         # テーブル（簡易対応）
         elif line.startswith('|'):
             pass  # TODO: テーブル対応
         # 段落
         else:
             if in_ul:
-                html_lines.append('            </ul>')
+                html_lines.append('                </ul>')
                 in_ul = False
             html_lines.append(f'                <p>{line}</p>')
 
     if in_ul:
-        html_lines.append('            </ul>')
+        html_lines.append('                </ul>')
 
-    return '\n'.join(html_lines)
+    article_body = '\n'.join(html_lines)
+    toc_html = '\n'.join(toc_items) if toc_items else '                    <li><a href="#conclusion">結論</a></li>'
+    return article_body, toc_html
 
 def generate_tag_pages(tags_data):
     """タグページを生成"""

@@ -16,90 +16,27 @@
                 <p class="meta">{{YYYY年MM月DD日}} | カテゴリ: {{カテゴリ}}</p>
             </div>
         </header>
+    </div>
 
+    <div class="container">
         <div class="main-content">
             <article>
-                <h2 id="conclusion">結論</h2>
-                <p>{{結論の内容}}</p>
-
-                <h2 id="what-i-wanted">何をしたかったか</h2>
-                <ul>
-                    <li><strong>目的</strong>: {{目的}}</li>
-                    <li><strong>対象</strong>: {{対象範囲}}</li>
-                    <li><strong>環境</strong>: {{環境}}</li>
-                </ul>
-
-                <h2 id="what-i-found">分かったこと</h2>
-                <ul>
-                    <li>{{気づき1}}</li>
-                    <li>{{気づき2}}</li>
-                    <li>{{気づき3}}</li>
-                </ul>
-
-                <h2 id="what-i-tried">試したこと</h2>
-                <p>{{試した内容の説明}}</p>
-
-                <!-- 必要に応じてテーブルを挿入 -->
-                <!--
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>項目1</th>
-                                <th>項目2</th>
-                                <th>項目3</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>データ1</td>
-                                <td>データ2</td>
-                                <td>データ3</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                -->
-
-                <h2 id="problems">起きた問題</h2>
-                <ul>
-                    <li><strong>問題1</strong>: {{説明}}</li>
-                    <li><strong>問題2</strong>: {{説明}}</li>
-                </ul>
-
-                <!-- 任意の追加セクション -->
-                <h2 id="notes">補足</h2>
-                <p>{{補足情報があればここに記述}}</p>
-
-                <!-- タグ（非表示） -->
-                <div class="tag-container" style="display:none;">
-                    <span class="tag">#{{タグ1}}</span>
-                    <span class="tag">#{{タグ2}}</span>
-                    <span class="tag">#{{タグ3}}</span>
-                </div>
-
+                {{ARTICLE_BODY}}
             </article>
 
             <!-- フローティング目次 -->
             <div class="toc-floating">
                 <h3>目次</h3>
                 <ul>
-                    <li><a href="#conclusion">結論</a></li>
-                    <li><a href="#what-i-wanted">何をしたかったか</a></li>
-                    <li><a href="#what-i-found">分かったこと</a></li>
-                    <li><a href="#what-i-tried">試したこと</a></li>
-                    <li><a href="#problems">起きた問題</a></li>
+                    {{TOC_ITEMS}}
                 </ul>
             </div>
         </div>
-    <footer>
 
+        <footer>
             <p>&copy; yurumoku</p>
-
-    </footer>
+        </footer>
     </div>
-
-
 
     <!-- ページトップボタン -->
     <button id="page-top" class="page-top-btn">
