@@ -2,11 +2,16 @@
 """
 ブログ自動生成スクリプト
 src/ をスキャンしてフロントマターをパースし、posts/ にHTMLを生成
+
+使い方:
+    python3 build.py          # 記事ビルド（既存HTMLはスキップ）
+    python3 build.py --index  # index.htmlのみ更新
 """
 
 import os
 import re
 import json
+import sys
 from pathlib import Path
 from datetime import datetime
 
@@ -188,6 +193,82 @@ def markdown_to_html(body, slug):
     toc_html = '\n'.join(toc_items) if toc_items else '                    <li><a href="#conclusion">結論</a></li>'
     return article_body, toc_html
 
+def generate_index_page(articles_data):
+    """index.htmlを生成"""
+    # カテゴリ説明
+    category_descriptions = {
+        "運営": "無微課金のための無微課金による無微課金AIブログ",
+    }
+
+    # カテゴリでグループ化
+    by_category = {}
+    for slug, info in articles_data.items():
+        category = info.get('category', '未分類')
+        if category not in by_category:
+            by_category[category] = []
+        by_category[category].append((slug, info))
+
+    # HTML生成
+    sections_html = []
+    for category in sorted(by_category.keys()):
+        description = category_descriptions.get(category)
+        if description:
+            sections_html.append(f'        <h3>{description}</h3>')
+
+        sections_html.append('        <ul class="article-list">')
+        for slug, info in sorted(by_category[category], key=lambda x: x[1].get('date', ''), reverse=True):
+            title = info.get('title', slug)
+            date = info.get('date', '')
+            file = info.get('file', f'posts/{slug}.html')
+
+            # タイトルに年月を付与
+            if date and len(date) >= 7:
+                year_month = f"【{date[:4]}年{date[5:7].lstrip('0')}月】"
+                title = f"{year_month}{title}"
+
+            sections_html.append(f'''            <li>
+                <a href="./{file}">
+                    <h3>{title}</h3>
+                    <p class="meta">{date}</p>
+                </a>
+            </li>''')
+        sections_html.append('        </ul>')
+
+    articles_html = '\n'.join(sections_html)
+
+    index_html = f'''<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ゆるもくブログ</title>
+    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-space"></div>
+            <div class="header-content">
+                <h1>Tech Blog</h1>
+            </div>
+        </header>
+
+        <h2>記事一覧</h2>
+{articles_html}
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; yurumoku</p>
+        </div>
+    </footer>
+</body>
+</html>'''
+
+    with open('index.html', 'w', encoding='utf-8') as f:
+        f.write(index_html)
+
 def generate_tag_pages(tags_data):
     """タグページを生成"""
     for tag, slugs in tags_data.items():
@@ -241,7 +322,7 @@ def generate_tag_pages(tags_data):
         with open(TAGS_DIR / f'{tag}.html', 'w', encoding='utf-8') as f:
             f.write(tag_html)
 
-def main():
+def main(mode='normal'):
     # テンプレート読み込み
     template = read_template()
 
@@ -271,13 +352,21 @@ def main():
             continue
 
         # 記事HTMLを生成
-        article_html, tags = generate_article_html(slug, frontmatter, body, template)
+        if mode != 'index_only':
+            article_html, tags = generate_article_html(slug, frontmatter, body, template)
 
-        # posts/ に保存
-        output_file = POSTS_DIR / f'{slug}.html'
-        with open(output_file, 'w', encoding='utf-8') as f:
-            f.write(article_html)
-        print(f"Generated: {output_file}")
+            # posts/ に保存
+            output_file = POSTS_DIR / f'{slug}.html'
+            # 既存HTMLがある場合の処理
+            if mode == 'normal' and output_file.exists():
+                print(f"Skipped (already exists): {output_file}")
+            else:
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    f.write(article_html)
+                print(f"Generated: {output_file}")
+        else:
+            # index_onlyモードではタグだけ収集
+            tags = frontmatter.get('tags', '').split(',') if frontmatter.get('tags') else []
 
         # タグデータを収集
         for tag in tags:
@@ -301,10 +390,21 @@ def main():
     print(f"Generated: {TAGS_JSON_FILE}")
 
     # タグページを生成
-    tags_data_with_articles = tags_data.copy()
-    tags_data_with_articles['_articles'] = tags_data['articles']
-    generate_tag_pages(tags_data['tags'])
-    print(f"Generated tag pages in {TAGS_DIR}/")
+    if mode != 'index_only':
+        tags_data_with_articles = tags_data.copy()
+        tags_data_with_articles['_articles'] = tags_data['articles']
+        generate_tag_pages(tags_data['tags'])
+        print(f"Generated tag pages in {TAGS_DIR}/")
+
+    # index.htmlを生成
+    generate_index_page(tags_data['articles'])
+    print("Generated: index.html")
 
 if __name__ == '__main__':
-    main()
+    # コマンドライン引数
+    args = sys.argv[1:]
+    mode = 'normal'  # 既存HTMLはスキップ
+    if '--index' in args:
+        mode = 'index_only'
+
+    main(mode)

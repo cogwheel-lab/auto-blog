@@ -100,6 +100,16 @@ category: 技術調査
 
 手動でHTMLを編集した記事など、ビルドで上書きされたくない場合は `build.py` の `EXCLUDE_SLUGS` にslug名を追加します。
 
+## 手動編集した記事をgitの追跡から除外する方法
+
+手動で編集したHTMLファイルをgitの変更検知から除外する場合：
+
+```bash
+git update-index --assume-unchanged posts/20260311-検索API比較.html
+```
+
+これでそのファイルの変更はgit diffに表示されなくなります。
+
 ```python
 # ビルドから除外する記事（slug名）
 EXCLUDE_SLUGS = ["20260311-検索API比較", "別のslug"]
