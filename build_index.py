@@ -66,7 +66,7 @@ def generate_full_index(articles_html):
         <header>
             <div class="logo-space"></div>
             <div class="header-content">
-                <h1>Tech Blog</h1>
+                <h1>ゆるもくブログ</h1>
             </div>
         </header>
 

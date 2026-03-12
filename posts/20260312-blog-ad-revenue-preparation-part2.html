@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>続・ブログで広告収入を得るための準備 | Tech Blog</title>
+    <title>続・ブログで広告収入を得るための準備 | ゆるもくブログ</title>
     <link rel="stylesheet" href="../assets/styles.css">
     <link rel="icon" type="image/png" href="../assets/favicon.png">
 </head>
@@ -20,17 +20,19 @@
         <div class="main-content">
             <article>
                 <h2 id="結論">結論</h2>
-                <p>build_index.pyでindex.htmlを毎回再生成する方式に落ち着いた。手動修正した記事は`git update-index --assume-unchanged`で固定し、フロントマターだけを更新すれば整合性が取れる。</p>
+                <p>build_index.pyで記事一覧を毎回再生成する方式に落ち着いた。
+                    手動修正した記事は`git update-index --assume-unchanged`で固定し<br>
+                    フロントマターだけを更新すれば整合性が取れる。</p>
                 <h2 id="何をしたかったか">何をしたかったか</h2>
-                <p>前回設計したブログ構造を実際に動かそうとしたところ、build.pyでindex.htmlの更新方法で問題が発生した。</p>
+                <p>前回設計したブログ構造を実際に動かそうとしたところ、build.pyで記事一覧の更新方法で問題が発生した。</p>
                 <h2 id="分かったこと">分かったこと</h2>
                 <ul>
-                    <li>build.pyとbuild_index.pyを分けるべき</li>
-                    <li>index.htmlは毎回全再生成でよい</li>
+                    <li>記事生成スクリプトと記事一覧生成スクリプトを分けるべき</li>
+                    <li>記事一覧を毎回生成するためにマーキングが必要</li>
                     <li>手動修正はフロントマターと同期させる必要がある</li>
                 </ul>
                 <h2 id="試したこと">試したこと</h2>
-                <p>build_index.pyを作成して、src/をスキャンしてindex.htmlを丸ごと再生成する方式を実装した。</p>
+                <p>記事一覧生成スクリプトを作成して、src/をスキャンして記事一覧を丸ごと再生成する方式を実装した。</p>
                 <h2 id="起きた問題">起きた問題</h2>
                 <ul>
                     <li>index.htmlが上書きされて手動編集が消える</li>
