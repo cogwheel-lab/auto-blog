@@ -82,10 +82,22 @@ def markdown_to_html(body, slug):
     toc_items = []
     in_ul = False
     in_table = False
+    in_pre = False
     table_rows = []
 
     for i, line in enumerate(lines):
         line = line.rstrip()
+        
+        # <pre>ブロックの開始・終了判定
+        if '<pre>' in line:
+            in_pre = True
+        
+        if in_pre:
+            html_lines.append(f'                {line}')
+            if '</pre>' in line:
+                in_pre = False
+            continue
+
         if not line:
             if in_ul:
                 html_lines.append('                </ul>')
