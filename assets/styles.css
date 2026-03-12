@@ -73,7 +73,7 @@ header .meta {
 /* Main Layout */
 .main-content {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     /* margin-top: 2rem; */
     margin-bottom: 3rem;
 }
@@ -114,6 +114,7 @@ article li {
 /* Table */
 .table-container {
     overflow-x: auto;
+    width: 100%;
     margin: 1.5rem 0;
     -webkit-overflow-scrolling: touch; /* iOSでの滑らかなスクロール */
     border-radius: 8px;
