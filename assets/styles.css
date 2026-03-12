@@ -396,6 +396,15 @@ pre code {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
-.page-top-btn:active {
-    transform: translateY(-1px);
+/* AI Disclaimer */
+.ai-disclaimer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+@media (max-width: 1024px) {
+    .ai-disclaimer {
+        font-size: 0.75rem;
+    }
 }
