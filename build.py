@@ -25,7 +25,11 @@ STYLES_FILE = Path("assets/styles.css")
 TAGS_JSON_FILE = Path("assets/tags.json")
 
 # ビルドから除外する記事（slug名）
-EXCLUDE_SLUGS = ["20260311-search-api-comparison"]
+EXCLUDE_SLUGS = [
+    "20260311-search-api-comparison",
+    "20260311-leo-long-summary",
+    "20260311-blog-ad-revenue-preparation"
+]
 
 # ディレクトリ作成
 POSTS_DIR.mkdir(exist_ok=True)
