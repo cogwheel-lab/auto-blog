@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>続・ブログで広告収入を得るための準備：自動化と聖域の構築 | ゆるもくブログ</title>
+    <title>続・ブログで広告収入を得るための準備 | ゆるもくブログ</title>
     <link rel="stylesheet" href="../assets/styles.css">
     <link rel="icon" type="image/png" href="../assets/favicon.png">
 </head>
@@ -12,7 +12,7 @@
         <header>
             <a href="../index.html"><div class="logo-space"></div></a>
             <div class="header-content">
-                <h1>続・ブログで広告収入を得るための準備：自動化と聖域の構築</h1>
+                <h1>続・ブログで広告収入を得るための準備</h1>
                 <p class="meta">2026-03-12 | カテゴリ: AI</p>
             </div>
         </header>
@@ -21,7 +21,7 @@
             <article>
                 <p class="ai-disclaimer">AIとの会話をAIが整形しているので、上から目線な腹の立つ文章になっております</p>
                 <h2 id="結論">結論</h2>
-                <p>ブログの「自動生成」と「人間による磨き込み」を両立させるため、目録生成（build_index.py）と記事生成（build.py）を完全に切り分けた。</p>
+                <p>ブログの「自動生成」と「人間による磨き込み」を両立させるため、記事一覧生成（build_index.py）と記事生成（build.py）を完全に切り分けた。</p>
                 <p>管理用のディレクトリは日本語のまま、URLは英語のslugで出力。運用負荷を下げつつ、見た目の美しさも確保した。</p>
                 
                 <h2 id="何をしたかったか">何をしたかったか</h2>
@@ -47,8 +47,7 @@
 
                 <h2 id="起きた問題">起きた問題</h2>
                 <ul>
-                    <li>サイト名の不一致：雛形が「Tech Blog」のまま。お嬢の屋号「ゆるもくブログ」に全ファイルを一斉置換。</li>
-                    <li>日本語ディレクトリによる不具合：WordPressと違い、Cloudflare PagesはURLをよしなに直してはくれない。日本語URLの不細工な状態を <code>slug</code> 管理で解消。源泉（src/）は日本語、実（posts/）は英語の理想形へ。</li>
+                    <li>日本語ディレクトリによる不具合：WordPressと違い、Cloudflare PagesはURLをよしなに直してはくれない。日本語URLの不細工な状態を <code>slug</code> 管理で解消。</li>
                 </ul>
             </article>
 
