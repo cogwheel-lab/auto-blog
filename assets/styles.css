@@ -115,13 +115,33 @@ article li {
 .table-container {
     overflow-x: auto;
     margin: 1.5rem 0;
+    -webkit-overflow-scrolling: touch; /* iOSでの滑らかなスクロール */
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: var(--text-light);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.95rem;
-    min-width: 600px;
+    font-size: 0.9rem;
+    min-width: 700px; /* 横スクロールを確実に発生させるための最低幅 */
 }
 
 table th {
