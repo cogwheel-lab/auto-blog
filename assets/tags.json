@@ -1,49 +1,25 @@
 {
   "tags": {
-    "Leo": [
-      "20260311-leo-long-summary"
-    ],
-    "Brave": [
-      "20260311-leo-long-summary"
-    ],
-    "AI": [
-      "20260311-leo-long-summary"
-    ],
-    "要約": [
-      "20260311-leo-long-summary"
-    ],
-    "ブログ": [
-      "20260311-blog-ad-revenue-preparation"
-    ],
-    "広告": [
-      "20260311-blog-ad-revenue-preparation"
-    ],
     "収益化": [
-      "20260311-blog-ad-revenue-preparation"
+      "20260312-blog-ad-revenue-preparation-part2"
+    ],
+    "ブログ運営": [
+      "20260312-blog-ad-revenue-preparation-part2"
+    ],
+    "AI活用": [
+      "20260312-blog-ad-revenue-preparation-part2"
     ]
   },
   "articles": {
-    "20260311-leo-long-summary": {
-      "title": "Leoでの長文要約の活用法",
-      "file": "posts/20260311-leo-long-summary.html",
-      "date": "2026-03-11",
-      "category": "ツール",
+    "20260312-blog-ad-revenue-preparation-part2": {
+      "title": "続・ブログで広告収入を得るための準備",
+      "file": "posts/20260312-blog-ad-revenue-preparation-part2.html",
+      "date": "2026-03-12",
+      "category": "AI",
       "tags": [
-        "Leo",
-        "Brave",
-        "AI",
-        "要約"
-      ]
-    },
-    "20260311-blog-ad-revenue-preparation": {
-      "title": "ブログで広告収入を得るための準備",
-      "file": "posts/20260311-blog-ad-revenue-preparation.html",
-      "date": "2026-03-11",
-      "category": "運営",
-      "tags": [
-        "ブログ",
-        "広告",
-        "収益化"
+        "収益化",
+        "ブログ運営",
+        "AI活用"
       ]
     }
   }
