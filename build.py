@@ -263,6 +263,20 @@ def generate_tag_pages(tags_data):
         with open(TAGS_DIR / f'{tag}.html', 'w', encoding='utf-8') as f:
             f.write(tag_html)
 
+def extract_toc_from_html(html):
+    """HTML内のh2, h3から目次を抽出"""
+    toc_items = []
+    # 簡易的な正規表現による抽出
+    matches = re.finditer(r'<h([23])(?:\s+id="([^"]+)")?>(.*?)</h\1>', html, re.DOTALL)
+    for match in matches:
+        level, id_attr, text = match.groups()
+        # idがない場合はテキストから生成
+        if not id_attr:
+            id_attr = text.lower().replace(' ', '-').replace('：', '').replace('、', '')
+        toc_items.append(f'                    <li><a href="#{id_attr}">{text}</a></li>')
+    
+    return '\n'.join(toc_items) if toc_items else '                    <li><a href="#conclusion">結論</a></li>'
+
 def main():
     # テンプレート読み込み
     template = read_template()
@@ -279,24 +293,47 @@ def main():
         # 除外リストに含まれていればスキップ
         if slug in EXCLUDE_SLUGS:
             continue
-        source_file = item / 'source.md'
-        if not source_file.exists():
+            
+        source_md = item / 'source.md'
+        source_html = item / 'source.html'
+        
+        if source_html.exists():
+            # HTML源泉を優先
+            with open(source_html, 'r', encoding='utf-8') as f:
+                content = f.read()
+            frontmatter, body = parse_frontmatter(content)
+            if not frontmatter:
+                print(f"Warning: {source_html} has no frontmatter, skipping")
+                continue
+            article_body = body.lstrip()
+            toc_items = extract_toc_from_html(article_body)
+        elif source_md.exists():
+            # Markdown源泉
+            with open(source_md, 'r', encoding='utf-8') as f:
+                content = f.read()
+            frontmatter, body = parse_frontmatter(content)
+            if not frontmatter:
+                print(f"Warning: {source_md} has no frontmatter, skipping")
+                continue
+            article_body, toc_items = markdown_to_html(body, slug)
+        else:
             continue
 
-        # フロントマターをパース
-        with open(source_file, 'r', encoding='utf-8') as f:
-            content = f.read()
-
-        frontmatter, body = parse_frontmatter(content)
-        if not frontmatter:
-            print(f"Warning: {source_file} has no frontmatter, skipping")
-            continue
-
-        # 出力ファイル名（slug）を決定：フロントマター優先、なければディレクトリ名
+        # 出力ファイル名（slug）を決定
         output_slug = frontmatter.get('slug', slug)
         
-        # 記事HTMLを生成
-        article_html, tags = generate_article_html(output_slug, frontmatter, body, template)
+        # テンプレート置換
+        title = frontmatter.get('title', '')
+        date = frontmatter.get('date', '')
+        category = frontmatter.get('category', '')
+        tags = frontmatter.get('tags', '').split(',') if frontmatter.get('tags') else []
+
+        html = template
+        html = html.replace('{{記事タイトル}}', title)
+        html = html.replace('{{YYYY年MM月DD日}}', date)
+        html = html.replace('{{カテゴリ}}', category)
+        html = html.replace('{{ARTICLE_BODY}}', article_body)
+        html = html.replace('{{TOC_ITEMS}}', toc_items)
 
         # posts/ に保存
         output_file = POSTS_DIR / f'{output_slug}.html'
