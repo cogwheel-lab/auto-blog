@@ -16,51 +16,148 @@
                 <p class="meta">2026-03-11 | カテゴリ: ツール</p>
             </div>
         </header>
-    </div>
 
-    <div class="container">
         <div class="main-content">
             <article>
-                <p># Leoでの長文要約の活用法</p>
+                <h2 id="結論">結論</h2>
+                <p>ChatGPTの長文をBrave Leoで要約させるスタイルはとてもいい。<br>
+                    カスタム指示が反映されない場合は <strong>Skills機能（スラッシュコマンド）</strong> を使うのが確実。
+                </p>
 
-                <p>Powered by [Gemini Exporter](https://www.ai-chat-exporter.com)</p>
+                <h2 id="何をしたかったか">何をしたかったか</h2>
+                <ul>
+                    <li>目的: ChatGPTが生成した人間が読むレベルじゃない長文を、サイドバーにいるLeoに要約させたい</li>
+                    <li>課題: カスタム指示（System Prompt）をモデルが守ってくれない</li>
+                    <li>要件: 最初に短くまとめ、その後要点を箇条書きで</li>
+                </ul>
+
+                <h2 id="分かったこと">分かったこと</h2>
+                <p><strong>Leoの利点</strong></p>
+                <ul>
+                    <li>視認性の向上: メイン画面で詳細を確認しつつ、サイドバーで要約を俯瞰できる</li>
+                    <li>最新情報の補完: Leoはウェブ検索を併用できるため、古い情報の指摘や補完が可能</li>
+                    <li>負荷の分散: 長文を読み込むストレスをAIに肩代わりさせる現代的な情報フィルタリング</li>
+                </ul>
+
+                <h3>無料で使える上位モデル比較</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>モデル名</th>
+                                <th>特徴</th>
+                                <th>要約性能</th>
+                                <th>エンドポイント</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Llama 3.3 70B</td>
+                                <td>無料かつ最強。指示への忠実度が大幅に向上</td>
+                                <td>日本語の文脈を理解し、箇条書きの制約も守る</td>
+                                <td>Groq</td>
+                            </tr>
+                            <tr>
+                                <td>DeepSeek R1 / V3</td>
+                                <td>推論型。理由を考えてから出力</td>
+                                <td>要点の抽出が的確。短くまとめる判断が優秀</td>
+                                <td>Groq / DeepSeek API</td>
+                            </tr>
+                            <tr>
+                                <td>Mistral Large 2</td>
+                                <td>癖がなく、プロンプトの制約を厳密に守る</td>
+                                <td>日本語の品質も安定。ビジネスライクな箇条書きに向いている</td>
+                                <td>Mistral La Plateforme</td>
+                            </tr>
+                            <tr>
+                                <td>Gemini 2.0 Flash</td>
+                                <td>コンテキスト窓が巨大（1M+）</td>
+                                <td>要点の整理が非常に綺麗</td>
+                                <td>Google AI Studio</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 id="試したこと">試したこと</h2>
+                <h3>Brave Leoのカスタムモデル設定</h3>
+                <p>GroqでLlama 3.3 70Bを使用する場合の設定：</p>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>項目</th>
+                                <th>設定値</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ラベル</td>
+                                <td>Groq-Llama70B（任意）</td>
+                            </tr>
+                            <tr>
+                                <td>Server URL</td>
+                                <td><code>https://api.groq.com/openai/v1/chat/completions</code></td>
+                            </tr>
+                            <tr>
+                                <td>Model Request Name</td>
+                                <td><code>llama-3.3-70b-versatile</code></td>
+                            </tr>
+                            <tr>
+                                <td>コンテキストサイズ</td>
+                                <td><code>32768</code>（128kは不安定になるため）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>System Promptの改善</h3>
+                <p>挨拶や導入文を強制的に禁止する文言を追加：</p>
+                <pre><code>あなたは熟練の要約担当者です。
+
+1. 返答は**必ず一番最初に**「100文字程度の短いまとめ」を提示してください。
+2. その後に、詳細を箇条書きでまとめてください。
+3. 「以下は要約です」といった導入文や挨拶は一切禁止します。いきなり本題に入ってください。
+4. 全て日本語で回答してください。</code></pre>
+
+                <h2 id="起きた問題">起きた問題</h2>
+                <h3>カスタム指示が反映されない</h3>
+                <ul>
+                    <li><strong>原因1</strong>: 設定画面でモデルを追加しただけでは、実際のチャット画面に反映されない</li>
+                    <li>→ Leoのサイドバーでモデル選択ドロップダウンから自分で付けたラベル名を直接選択する必要がある</li>
+                </ul>
+                <ul>
+                    <li><strong>原因2</strong>: エンドポイントの末尾が正しくない</li>
+                    <li>→ <code>/chat/completions</code> まで入力しないと、デフォルトのQwenやLlamaにフォールバックされる</li>
+                </ul>
+
+                <h3>要約のフォーマットが崩れる</h3>
+                <ul>
+                    <li>Llama 3.3 70Bは優秀だが、少しお喋りな性格（フレンドリーな調整）がされていることがある</li>
+                    <li>「最初に短い要約を出してほしい」という指示が守られない場合は、<strong>DeepSeek R1</strong> に切り替えると良い</li>
+                    <li>DeepSeek R1は論理構造を重視するため、「まず結論、次に箇条書き」という構造的な指示に最も忠実</li>
+                </ul>
+
+                <h3>Skills機能の活用</h3>
+                <p>System PromptよりもSkills（スラッシュコマンド）経由の方が指示を厳密に守る傾向がある：</p>
+                <ol>
+                    <li>Leoのチャット欄に <code>/</code> を入力</li>
+                    <li>「New Skill」を選択し、名前を <code>sum</code> などにする</li>
+                    <li>Response（プロンプト）欄に上記の指示を貼り付けて保存</li>
+                    <li>今後はChatGPTのページで <code>/sum</code> と打つだけで、理想のフォーマットで出力される</li>
+                </ol>
+
             </article>
 
             <!-- フローティング目次 -->
             <div class="toc-floating">
                 <h3>目次</h3>
                 <ul>
-                    <li><a href="#prompt:">Prompt:</a></li>
-                    <li><a href="#response:">Response:</a></li>
-                    <li><a href="#その手法の利点">その手法の利点</a></li>
-                    <li><a href="#prompt:">Prompt:</a></li>
-                    <li><a href="#response:">Response:</a></li>
-                    <li><a href="#結論と対策">結論と対策</a></li>
-                    <li><a href="#原因の分析">原因の分析</a></li>
-                    <li><a href="#改善案">改善案</a></li>
-                    <li><a href="#prompt:">Prompt:</a></li>
-                    <li><a href="#response:">Response:</a></li>
-                    <li><a href="#1\.-llama-3.3-70b-(groq-/-openrouter)">1\. Llama 3.3 70B (Groq / OpenRouter)</a></li>
-                    <li><a href="#2\.-deepseek-r1-/-v3-(groq-/-deepseek-api)">2\. DeepSeek R1 / V3 (Groq / DeepSeek API)</a></li>
-                    <li><a href="#3\.-mistral-large-2-(mistral-la-plateforme)">3\. Mistral Large 2 (Mistral La Plateforme)</a></li>
-                    <li><a href="#4\.-gemini-2.0-flash-(google-ai-studio)">4\. Gemini 2.0 Flash (Google AI Studio)</a></li>
-                    <li><a href="#おすすめの設定変更">おすすめの設定変更</a></li>
-                    <li><a href="#prompt:">Prompt:</a></li>
-                    <li><a href="#response:">Response:</a></li>
-                    <li><a href="#推奨モデル設定リスト">推奨モデル設定リスト</a></li>
-                    <li><a href="#設定の注意点">設定の注意点</a></li>
-                    <li><a href="#執事からのアドバイス">執事からのアドバイス</a></li>
-                    <li><a href="#prompt:">Prompt:</a></li>
-                    <li><a href="#response:">Response:</a></li>
-                    <li><a href="#1\.-サイドバーでの「モデル選択」を忘れていませんか？">1\. サイドバーでの「モデル選択」を忘れていませんか？</a></li>
-                    <li><a href="#2\.-エンドポイントの末尾を確認してください">2\. エンドポイントの末尾を確認してください</a></li>
-                    <li><a href="#3\.-「デフォルトモデル」として固定する">3\. 「デフォルトモデル」として固定する</a></li>
-                    <li><a href="#各モデルの「正確なリクエスト名」まとめ">各モデルの「正確なリクエスト名」まとめ</a></li>
-                    <li><a href="#prompt:">Prompt:</a></li>
-                    <li><a href="#response:">Response:</a></li>
-                    <li><a href="#1\.-「system-prompt」の書き換え案">1\. 「System Prompt」の書き換え案</a></li>
-                    <li><a href="#2\.-「skills（スラッシュコマンド）」の活用（推奨）">2\. 「Skills（スラッシュコマンド）」の活用（推奨）</a></li>
-                    <li><a href="#3\.-それでもダメな場合（モデルの癖）">3\. それでもダメな場合（モデルの癖）</a></li>
+                    <li><a href="#結論">結論</a></li>
+                    <li><a href="#何をしたかったか">何をしたかったか</a></li>
+                    <li><a href="#分かったこと">分かったこと</a></li>
+                    <li><a href="#試したこと">試したこと</a></li>
+                    <li><a href="#起きた問題">起きた問題</a></li>
                 </ul>
             </div>
         </div>
