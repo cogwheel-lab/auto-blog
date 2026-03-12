@@ -1,25 +1,29 @@
 {
   "tags": {
     "収益化": [
-      "20260312-blog-ad-revenue-preparation-part2"
+      "blog-ad-revenue-preparation-part2"
     ],
     "ブログ運営": [
-      "20260312-blog-ad-revenue-preparation-part2"
+      "blog-ad-revenue-preparation-part2"
     ],
     "AI活用": [
-      "20260312-blog-ad-revenue-preparation-part2"
+      "blog-ad-revenue-preparation-part2"
+    ],
+    "Python": [
+      "blog-ad-revenue-preparation-part2"
     ]
   },
   "articles": {
-    "20260312-blog-ad-revenue-preparation-part2": {
-      "title": "続・ブログで広告収入を得るための準備",
-      "file": "posts/20260312-blog-ad-revenue-preparation-part2.html",
+    "blog-ad-revenue-preparation-part2": {
+      "title": "続・ブログで広告収入を得るための準備：自動化と聖域の構築",
+      "file": "posts/blog-ad-revenue-preparation-part2.html",
       "date": "2026-03-12",
       "category": "AI",
       "tags": [
         "収益化",
         "ブログ運営",
-        "AI活用"
+        "AI活用",
+        "Python"
       ]
     }
   }

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>続・ブログで広告収入を得るための準備：自動化と聖域の構築 | ゆるもくブログ</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="../index.html"><div class="logo-space"></div></a>
+            <div class="header-content">
+                <h1>続・ブログで広告収入を得るための準備：自動化と聖域の構築</h1>
+                <p class="meta">2026-03-12 | カテゴリ: AI</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <article>
+                <h2 id="結論">結論</h2>
+                <p>ブログ記事の「自動生成」と「手動による磨き込み」を両立させるため、目録生成（build_index.py）と記事生成（build.py）の分離を断行。</p>
+                <p>また、管理上の「日本語ディレクトリ名」と、URL上の「英語slug」を切り分けることで、運用負荷の軽減と美観の両立を達成した。</p>
+                <h2 id="何をしたかったか">何をしたかったか</h2>
+                <ul>
+                    <li>目録の自動更新: 記事が増えるたびに `index.html` を手動で書き換える手間を省きたい。</li>
+                    <li>手動修正の保護: AIが生成したHTMLを人間が磨き上げた後、再ビルドで上書き（破壊）される事故を防ぎたい。</li>
+                    <li>直感的なファイル管理: 日本語の会話ログを扱う際、ディレクトリ名が日本語のままでも、出力されるURLは適切な英語（ケバブケース）に保ちたい。</li>
+                </ul>
+                <h2 id="分かったこと">分かったこと</h2>
+                <ul>
+                    <li>一括ビルドの限界: すべてを一つのスクリプトで管理すると、手動で修正した箇所まで「一律の雛形」に引き戻されてしまう。</li>
+                    <li>slug（スラッグ）の重要性: 出力ファイル名をフロントマターの `slug` 項目で定義することで、物理的なディレクトリ構造に縛られない柔軟なURL設計が可能になる。</li>
+                    <li>聖域（除外リスト）の必要性: 修正が終わった記事を `EXCLUDE_SLUGS`（除外目録）に登録することで、ビルドの魔の手から永続的に守る運用が極めて有効。</li>
+                </ul>
+                <h2 id="試したこと">試したこと</h2>
+                <ul>
+                    <li>build_index.py の新規実装: 記事のフロントマターをスキャンし、`index.html` の特定の範囲（マーカー間）だけを書き換える術を確立。</li>
+                    <li>フロントマター優先のルーティング: `build.py` を改修し、ディレクトリ名ではなく `source.md` 内の `slug` を優先してファイル名を決定する仕掛けを導入。</li>
+                    <li>CSS Grid の最適化: スマホ閲覧時にテーブルが画面を突き破る問題を、`minmax(0, 1fr)` の指定により解決し、滑らかな横スクロールを実現。</li>
+                </ul>
+                <h2 id="起きた問題">起きた問題</h2>
+                <ul>
+                    <li>日本語ディレクトリによる不具合: URLに日本語が含まれる不細工な状態が発生。フロントマターでの `slug` 管理に移行することで、源泉（src/）が日本語でも、実（posts/）は英語という理想的な姿を確保した。</li>
+                </ul>
+            </article>
+
+            <!-- フローティング目次 -->
+            <div class="toc-floating">
+                <h3>目次</h3>
+                <ul>
+                    <li><a href="#結論">結論</a></li>
+                    <li><a href="#何をしたかったか">何をしたかったか</a></li>
+                    <li><a href="#分かったこと">分かったこと</a></li>
+                    <li><a href="#試したこと">試したこと</a></li>
+                    <li><a href="#起きた問題">起きた問題</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; yurumoku</p>
+        </footer>
+    </div>
+
+    <!-- ページトップボタン -->
+    <button id="page-top" class="page-top-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script>
+        const pageTopBtn = document.getElementById('page-top');
+
+        // スクロール時に表示/非表示
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                pageTopBtn.classList.add('show');
+            } else {
+                pageTopBtn.classList.remove('show');
+            }
+        });
+
+        // クリックでトップへ
+        pageTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
