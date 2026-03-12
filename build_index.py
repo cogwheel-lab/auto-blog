@@ -109,8 +109,11 @@ def main():
             print(f"Warning: {source_file} has no frontmatter, skipping")
             continue
 
+        # 出力ファイル名（slug）を決定
+        output_slug = frontmatter.get('slug', slug)
+
         articles.append({
-            'slug': slug,
+            'slug': output_slug,
             'title': frontmatter.get('title', slug),
             'date': frontmatter.get('date', ''),
         })

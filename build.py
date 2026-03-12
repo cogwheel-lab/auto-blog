@@ -280,11 +280,14 @@ def main():
             print(f"Warning: {source_file} has no frontmatter, skipping")
             continue
 
+        # 出力ファイル名（slug）を決定：フロントマター優先、なければディレクトリ名
+        output_slug = frontmatter.get('slug', slug)
+        
         # 記事HTMLを生成
-        article_html, tags = generate_article_html(slug, frontmatter, body, template)
+        article_html, tags = generate_article_html(output_slug, frontmatter, body, template)
 
         # posts/ に保存
-        output_file = POSTS_DIR / f'{slug}.html'
+        output_file = POSTS_DIR / f'{output_slug}.html'
         # 既存HTMLがある場合の処理
         if output_file.exists():
             print(f"Skipped (already exists): {output_file}")
@@ -298,12 +301,12 @@ def main():
             tag = tag.strip()
             if tag not in tags_data['tags']:
                 tags_data['tags'][tag] = []
-            tags_data['tags'][tag].append(slug)
+            tags_data['tags'][tag].append(output_slug)
 
         # 記事データを収集
-        tags_data['articles'][slug] = {
+        tags_data['articles'][output_slug] = {
             'title': frontmatter.get('title', slug),
-            'file': f'posts/{slug}.html',
+            'file': f'posts/{output_slug}.html',
             'date': frontmatter.get('date', ''),
             'category': frontmatter.get('category', ''),
             'tags': [t.strip() for t in tags]
